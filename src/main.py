@@ -6,9 +6,10 @@ from enum import Enum, unique
 import click
 
 from formatters.styles.gost import GOSTCitationFormatter
+from formatters.styles.apa import APACitationFormatter
 from logger import get_logger
-from readers.reader import SourcesReader
-from renderer import Renderer
+from readers.reader import SourcesReader, APASourcesReader
+from renderer import Renderer, APARenderer
 from settings import INPUT_FILE_PATH, OUTPUT_FILE_PATH
 
 logger = get_logger(__name__)
@@ -53,10 +54,19 @@ class CitationEnum(Enum):
     show_default=True,
     help="Путь к выходному файлу",
 )
+def get_citiation_class(citation: str):
+    print(citation)
+    if citation == CitationEnum.GOST.name:
+        return SourcesReader, GOSTCitationFormatter
+    print(citation)
+    if citation == CitationEnum.APA.name:
+        return APASourcesReader, APACitationFormatter
+
+
 def process_input(
-    citation: str = CitationEnum.GOST.name,
-    path_input: str = INPUT_FILE_PATH,
-    path_output: str = OUTPUT_FILE_PATH,
+        citation: str = CitationEnum.GOST.name,
+        path_input: str = INPUT_FILE_PATH,
+        path_output: str = OUTPUT_FILE_PATH,
 ) -> None:
     """
     Генерация файла Word с оформленным библиографическим списком.
@@ -75,14 +85,21 @@ def process_input(
         path_input,
         path_output,
     )
+    if citation == "APA":
+        reader = APASourcesReader
+        formatter = APACitationFormatter
+        render = APARenderer
+    else:
+        reader = SourcesReader
+        formatter = GOSTCitationFormatter
+        render = Renderer
 
-    models = SourcesReader(path_input).read()
+    models = reader(path_input).read()
     formatted_models = tuple(
-        str(item) for item in GOSTCitationFormatter(models).format()
+        str(item) for item in formatter(models).format()
     )
-
     logger.info("Генерация выходного файла ...")
-    Renderer(formatted_models).render(path_output)
+    render(formatted_models).render(path_output)
 
     logger.info("Команда успешно завершена.")
 
