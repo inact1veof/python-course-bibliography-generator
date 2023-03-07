@@ -7,9 +7,9 @@ from formatters.models import InternetResourceModel, DissertationModel
 from formatters.styles.apa import APAInternetResource, APADissertation
 
 
-class TestGOST:
+class TestAPA:
     """
-    Тестирование оформления списка источников согласно ГОСТ Р 7.0.5-2008.
+    Тестирование оформления списка источников согласно APA.
     """
 
     def test_internet_resource(self, internet_resource_model_fixture: InternetResourceModel) -> None:
