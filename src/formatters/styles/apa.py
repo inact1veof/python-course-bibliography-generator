@@ -34,7 +34,7 @@ class APAInternetResource(BaseCitationStyle):
         )
 
 
-class APADissertaion(BaseCitationStyle):
+class APADissertation(BaseCitationStyle):
     """
     Форматирование для диссертации.
     """
@@ -68,7 +68,7 @@ class APACitationFormatter:
     """
 
     formatters_map = {
-        DissertationModel.__name__: APADissertaion,
+        DissertationModel.__name__: APADissertation,
         InternetResourceModel.__name__: APAInternetResource,
     }
 

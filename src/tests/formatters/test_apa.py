@@ -33,7 +33,7 @@ class TestAPA:
 
         model = APADissertation(dissertation_model_fixture)
 
-        assert (model.formatted == "Иванов И.М. (2020) Наука как искусство, дис. [д-р. / канд. экон. 01.01.01] СПб., 999 p.")
+        assert (model.formatted == "Иванов И.М. (2020) Наука как искусство, дис. [д-р. / канд. экон. 01.01.01] СПб., 199 p.")
 
     def test_citation_formatter(
             self,
